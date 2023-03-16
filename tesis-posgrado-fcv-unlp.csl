@@ -1,0 +1,214 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" version="1.0" demote-non-dropping-particle="never" default-locale="es-Es">
+  <!-- This style was edited with the Visual CSL Editor (https://editor.citationstyles.org/visualEditor/) -->
+  <info>
+    <title>Tesis Posgrado FCV - UNLP</title>
+    <title-short>FCV_UNLP</title-short>
+    <id>http://www.zotero.org/styles/tesis-posgrado-fcv-unlp</id>
+    <link rel="self" href="http://www.zotero.org/styles/tesis-posgrado-fcv-unlp"/>
+    <author>
+      <name>Washington Fernando Carrasco Sangache</name>
+      <email>wfcarrascos@gmail.com</email>
+    </author>
+    <summary>Este Código, funciona con: Libros, capítulos de libros, publicaciones de conferencias y tesis. </summary>
+    <updated>2022-12-13T03:14:50+00:00</updated>
+  </info>
+  <locale xml:lang="es-ES">
+    <terms>
+      <term name="et-al">y col.</term>
+      <term name="ordinal">va.</term>
+      <term name="ordinal-01">ra.</term>
+      <term name="ordinal-02">da.</term>
+      <term name="ordinal-03">ra.</term>
+      <term name="ordinal-04">ta.</term>
+      <term name="ordinal-05">ta.</term>
+      <term name="ordinal-06">ta.</term>
+      <term name="ordinal-07">ma.</term>
+      <term name="ordinal-09">na.</term>
+      <term name="ordinal-10">ma.</term>
+    </terms>
+  </locale>
+  <macro name="autor_corto">
+    <group delimiter=", ">
+      <names variable="author" delimiter=", ">
+        <name form="short" and="text" et-al-min="3" et-al-use-first="1"/>
+        <substitute>
+          <names variable="editor collection-editor compiler editorial-director original-author author"/>
+        </substitute>
+      </names>
+      <date date-parts="year" form="text" variable="issued"/>
+    </group>
+  </macro>
+  <macro name="autor_largo">
+    <names variable="author">
+      <name initialize-with="" name-as-sort-order="all" sort-separator=" "/>
+      <substitute>
+        <names variable="editor compiler director organizer original-author collection-editor"/>
+      </substitute>
+    </names>
+  </macro>
+  <macro name="fecha_rev">
+    <group>
+      <date date-parts="year" form="text" variable="issued" suffix="; "/>
+      <choose>
+        <if match="any" variable="volume">
+          <text variable="volume" form="short"/>
+        </if>
+      </choose>
+      <choose>
+        <if match="all" variable="volume page">
+          <text value=": "/>
+        </if>
+      </choose>
+      <choose>
+        <if match="any" variable="page">
+          <text variable="page"/>
+        </if>
+      </choose>
+    </group>
+  </macro>
+  <macro name="edicion_libros">
+    <group delimiter=" ">
+      <choose>
+        <if match="any" is-numeric="edition">
+          <number text-case="capitalize-first" variable="edition" form="ordinal"/>
+          <label text-case="capitalize-first" variable="edition"/>
+        </if>
+      </choose>
+    </group>
+  </macro>
+  <macro name="fecha_libros">
+    <date date-parts="year" form="text" variable="issued"/>
+  </macro>
+  <macro name="paginas_libros">
+    <label plural="never" suffix=" " variable="page" form="symbol"/>
+    <text variable="page"/>
+  </macro>
+  <citation disambiguate-add-year-suffix="true" collapse="year">
+    <sort>
+      <key variable="author"/>
+      <key variable="issued"/>
+    </sort>
+    <layout delimiter="; " prefix="(" suffix=")">
+      <group>
+        <choose>
+          <if type="webpage" match="any">
+            <group delimiter=", ">
+              <text variable="title" quotes="false" prefix="&quot;" suffix="&quot;"/>
+              <date date-parts="year" form="text" variable="accessed"/>
+            </group>
+          </if>
+          <else>
+            <text macro="autor_corto"/>
+          </else>
+        </choose>
+      </group>
+    </layout>
+  </citation>
+  <bibliography entry-spacing="0" line-spacing="2">
+    <sort>
+      <key macro="autor_largo"/>
+    </sort>
+    <layout>
+      <group delimiter=". ">
+        <choose>
+          <if type="article-journal" match="any">
+            <group delimiter=". " suffix=".">
+              <text macro="autor_largo"/>
+              <text variable="title"/>
+              <text variable="container-title" form="short" text-decoration="underline"/>
+              <text macro="fecha_rev"/>
+            </group>
+          </if>
+          <else-if type="book" match="any">
+            <group delimiter=". " suffix=".">
+              <text macro="autor_largo"/>
+              <text variable="title"/>
+              <text macro="edicion_libros"/>
+              <group delimiter=", ">
+                <text variable="publisher-place"/>
+                <text variable="publisher"/>
+                <text macro="fecha_libros"/>
+                <text macro="paginas_libros"/>
+              </group>
+            </group>
+          </else-if>
+          <else-if type="chapter" match="any">
+            <group delimiter=". " suffix=".">
+              <text macro="autor_largo"/>
+              <text variable="title"/>
+              <group>
+                <text term="in" text-case="capitalize-first" suffix=": "/>
+                <names variable="editor container-author compiler collection-editor original-author">
+                  <name initialize-with="" name-as-sort-order="all" sort-separator=" "/>
+                </names>
+              </group>
+              <text variable="container-title"/>
+              <text macro="edicion_libros"/>
+              <group delimiter=", ">
+                <text variable="publisher-place"/>
+                <text variable="publisher"/>
+                <date date-parts="year" form="text" variable="issued"/>
+                <text macro="paginas_libros"/>
+              </group>
+            </group>
+          </else-if>
+          <else-if type="paper-conference" match="any">
+            <group delimiter=". " suffix=".">
+              <text macro="autor_largo"/>
+              <text variable="title"/>
+              <text variable="container-title"/>
+              <date date-parts="year" form="text" variable="issued"/>
+              <text variable="publisher-place"/>
+            </group>
+          </else-if>
+          <else-if type="thesis" match="any">
+            <group delimiter=". " suffix=".">
+              <text macro="autor_largo"/>
+              <text variable="title"/>
+              <text variable="genre"/>
+              <text variable="publisher"/>
+              <date date-parts="year" form="numeric" variable="issued"/>
+            </group>
+          </else-if>
+          <else-if type="webpage" match="any">
+            <group delimiter=". ">
+              <text variable="title"/>
+              <choose>
+                <if match="any" variable="issued">
+                  <date date-parts="year" form="text" variable="issued">
+                    <date-part name="year"/>
+                  </date>
+                </if>
+                <else>
+                  <text term="no date" form="short"/>
+                </else>
+              </choose>
+              <group delimiter=" ">
+                <text value="Online" prefix="[" suffix="]"/>
+                <text term="available at" text-case="capitalize-first" suffix=":"/>
+                <text variable="URL"/>
+                <group delimiter=" " prefix="[" suffix="]">
+                  <text term="accessed" text-case="capitalize-first" suffix=":"/>
+                  <date form="text" variable="accessed"/>
+                </group>
+              </group>
+            </group>
+          </else-if>
+          <else>
+            <group delimiter=". " suffix=".">
+              <text macro="autor_largo"/>
+              <text variable="title"/>
+              <group delimiter=", ">
+                <text variable="publisher-place"/>
+                <text variable="publisher"/>
+                <date date-parts="year" form="text" variable="issued"/>
+                <text macro="paginas_libros"/>
+              </group>
+            </group>
+          </else>
+        </choose>
+      </group>
+    </layout>
+  </bibliography>
+</style>
